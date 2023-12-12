@@ -32,7 +32,14 @@ int main() {
 
 	cout << d.calculation_Polynomial_x(2) << endl;
 
+	double* w = new double [4] {1.0, 7.0, 13.0, 33.0};
+	Polynomial <double> z(w, 4);
 
+	findCubicRoots(z);
 
 	return 0;
 }
+
+
+
+

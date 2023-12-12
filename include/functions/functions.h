@@ -3,6 +3,7 @@
 #include <cmath>
 #include <complex>
 #include <stdexcept>
+# define M_PI           3.14159265358979323846  /* pi */
 using namespace std;
 
 namespace polynom {
@@ -165,6 +166,43 @@ namespace polynom {
         }
 
     };
+    template<typename T>
+    void findCubicRoots(Polynomial<T> polynomial) {
+
+
+        // Приведение к упрощенной форме
+        T* mass = polynomial.get_data();
+        T a = mass[3];
+        T b = mass[2];
+        T c = mass[1];
+        T d = mass[0];
+
+        T p = c / a - b * b / (3 * a * a);
+        T q = 2 * b * b * b / (27 * a * a * a) - b * c / (3 * a * a) + d / a;
+
+        T Q = p / 3;
+        T R = q / 2;
+
+        T D = Q * Q * Q + R * R; // Дискриминант
+
+
+        if (D > 0) {
+            // Один действительный корень
+            T S = std::cbrt(-R + std::sqrt(D));
+            T t = std::cbrt(-R - std::sqrt(D));
+            T x1 = (S + t - b) / (3 * a);
+            std::cout << "One real root: " << x1 << std::endl;
+        }
+        else {
+            // Три действительных корня (D <= 0)
+            T theta = std::acos(-R / std::sqrt(-Q * Q * Q));
+            T x1 = 2 * std::sqrt(-Q) * std::cos(theta / 3) - b / (3 * a);
+            T x2 = 2 * std::sqrt(-Q) * std::cos((theta + 2 * M_PI) / 3) - b / (3 * a);
+            T x3 = 2 * std::sqrt(-Q) * std::cos((theta + 4 * M_PI) / 3) - b / (3 * a);
+
+            std::cout << "Three real roots: " << x1 << ", " << x2 << ", " << x3 << std::endl;
+        }
+    }
 
    
 
